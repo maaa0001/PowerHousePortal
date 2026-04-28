@@ -1,0 +1,36 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 2026_1_php_web_server_router_new
+    depends_on:
+      - mariadb
+    ports:
+      - 80:80 # 0 - 65535 from 0 to 1024 are reserved 1025 and above 655535
+    volumes:
+      - .:/var/www/html
+
+  mariadb:
+    image: mariadb:10.6.20
+    container_name: 2026_1_php_mariadb_new
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: 2026_1_php
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: 2026_1_php_phpmyadmin_new
+    depends_on:
+      - mariadb
+    environment:
+      PMA_HOST: mariadb
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 8080:80
+volumes:
+  mariadb_data:
