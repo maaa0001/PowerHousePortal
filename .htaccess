@@ -1,3 +1,3 @@
 RewriteEngine On
 
-RewriteRule ^$      views/page-index.php [NC,L]
+RewriteRule ^$      pages/page-index.php [NC,L]

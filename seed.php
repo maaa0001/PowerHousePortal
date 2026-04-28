@@ -4,6 +4,8 @@ ini_set('memory_limit', '512M');
 
 require_once __DIR__."/db.php";
 
+$_db->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+
 $sql = "TRUNCATE TABLE items";
 $stmt = $_db->prepare( $sql);
 $stmt->execute();
