@@ -1,3 +1,4 @@
 RewriteEngine On
 
 RewriteRule ^$      pages/page-index.php [NC,L]
+RewriteRule ^api-get-item$      /apis/api-get-item.php [NC,L]

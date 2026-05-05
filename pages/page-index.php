@@ -80,7 +80,7 @@ $items = $stmt->fetchAll();
                             html: `
                                 <button
                                     class="marker ${item.item_type}" onclick="mixhtml(); return false;"
-                                    mix-get="api-get-item?item_pk=${item.itme_pk}">
+                                    mix-get="api-get-item?item_pk=${item.item_pk}">
                                 </button>
                             `,
                         }),
@@ -94,7 +94,7 @@ $items = $stmt->fetchAll();
                             html: `
                                 <button
                                     class="marker ${item.item_type}" onclick="mixhtml(); return false;"
-                                    mix-get="api-get-item?item_pk=${item.itme_pk}">
+                                    mix-get="api-get-item?item_pk=${item.item_pk}">
                                 </button>
                             `,
                         }),
@@ -108,7 +108,7 @@ $items = $stmt->fetchAll();
                             html: `
                                 <button
                                     class="marker ${item.item_type}" onclick="mixhtml(); return false;"
-                                    mix-get="api-get-item?item_pk=${item.itme_pk}">
+                                    mix-get="api-get-item?item_pk=${item.item_pk}">
                                 </button>
                             `,
                         }),
@@ -123,7 +123,7 @@ $items = $stmt->fetchAll();
         </script>
 
 
-        <div id="info"></div>
+        <aside></aside>
     </main>
 
 
@@ -131,65 +131,3 @@ $items = $stmt->fetchAll();
 
 </body>
 </html>
-
-
-/*
-$userController = new UserController(); // Instantiate the user class
-$userController->set_name("Malthe");
-// echo $user->name;
-
-echo $userController->save();
-*/
-
-
-
-
-/*
-ini_set("display_errors", 1);
-
-require_once __DIR__.'/../User.php';
-require_once __DIR__.'/../Item.php';
-require_once __DIR__.'/../Pet.php';
-
-// Instantiate the object
-// Create an object form the code
-// Instantiation
-
-$me = new User("Bro", "12");
-$dad = new User("Dad ", "2");
-$mom = new User("mommy", "3");
-
-$mom->pet = new Pet("Garfield");
-
-$me->dad = $dad;
-$me->mom = $mom;
-
-echo $me->dad->get_cpr();
-echo $me->mom->get_cpr();
-echo $me->mom->pet->name;
-*/
-
-
-/*
-$me = new User("Malthe", "123456-7890");
-echo $me->pet;
-*/
-
-
-
-/*
-$user = new User("Malthe", "123456-7890");
-
-// echo $user->name;
-// echo $user->get_cpr();
-
-$item = new Item("XXX", "890");
-// echo $item->title;
-// echo $item->price;
-
-$cat = new Pet("Garfield");
-// echo $cat->name;
-
-$user->pet = $cat;
-echo $user->pet->name;
-*/

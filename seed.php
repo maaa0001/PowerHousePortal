@@ -28,18 +28,40 @@ foreach($rows as $row){
             $coordinates = $item["coordinates"];
             $item_lat = $coordinates["lat"];
             $item_lon = $coordinates["lon"];
+            $address = $item["address"];
+            $item_house_number = $address["houseNumber"] ?? 0;
+            $item_road_name = $address["road"]["name"];
+            $item_zip_code = $address["zipCode"];
+            $item_city_name = $address["cityName"];
+            $item_days_listed = $item["daysListed"]["days"];
+            $item_main_image_path = $item["image"]["imageSources"][0]["url"] ?? 0;
+            $item_floor_plan_path = $item["floorPlanImage"]["imageSources"][0]["url"] ?? 0;
+            $item_energy_label = $item["energyLabel"] ?? "0";
             $item_price = $item["priceCash"];
             $item_type = $item["addressType"];
-            $city_name = $item["address"]["city"]["name"] ?? "";
+            $item_number_of_rooms = $item["numberOfRooms"] ?? 0;
+            $item_floor_square_meters = $item["housingArea"] ?? 0;
+            $item_area_square_meters = $item["lotArea"] ?? 0;
 
-            $sql = "INSERT INTO items VALUES(:item_pk, :item_lat, :item_lon, :item_price, :item_type, :item_city_name)";
+
+            $sql = "INSERT INTO items (item_pk, item_lat, item_lon, item_price, item_type, item_city_name, item_house_number, item_road_name, item_zip_code, item_days_listed, item_energy_label, item_floor_square_meters, item_area_square_meters, item_number_of_rooms, item_floor_plan_path, item_main_image_path) VALUES(:item_pk, :item_lat, :item_lon, :item_price, :item_type, :item_city_name, :item_house_number, :item_road_name, :item_zip_code, :item_days_listed, :item_energy_label, :item_floor_square_meters, :item_area_square_meters, :item_number_of_rooms, :item_floor_plan_path, :item_main_image_path )";
             $stmt = $_db->prepare( $sql);
             $stmt->bindValue(":item_pk", $item_pk );
             $stmt->bindValue(":item_lat", $item_lat );
             $stmt->bindValue(":item_lon", $item_lon);
             $stmt->bindValue(":item_price", $item_price);
             $stmt->bindValue(":item_type", $item_type);
-            $stmt->bindValue(":item_city_name", $city_name );
+            $stmt->bindValue(":item_city_name", $item_city_name );
+            $stmt->bindValue(":item_road_name", $item_road_name);
+            $stmt->bindValue(":item_house_number", $item_house_number);
+            $stmt->bindValue(":item_zip_code", $item_zip_code);
+            $stmt->bindValue(":item_days_listed", $item_days_listed);
+            $stmt->bindValue(":item_energy_label", $item_energy_label);
+            $stmt->bindValue(":item_floor_plan_path", $item_floor_plan_path);
+            $stmt->bindValue(":item_main_image_path", $item_main_image_path);
+            $stmt->bindValue(":item_number_of_rooms", $item_number_of_rooms);
+            $stmt->bindValue(":item_floor_square_meters", $item_floor_square_meters);
+            $stmt->bindValue(":item_area_square_meters", $item_area_square_meters);
             $stmt->execute();
         }
     }
