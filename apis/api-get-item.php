@@ -22,10 +22,18 @@ try {
     echo "System error: " . $ex->getMessage();
     exit();
 }
+
+$address_slug = urlencode(
+    $item['item_road_name'] . "-" .
+    $item['item_house_number'] . "-" .
+    $item['item_zip_code'] . "-" .
+    $item['item_city_name']
+);
 ?>
 
 <browser mix-update="aside">
     <section>
+        <a href="/house/<?= $address_slug ?>">Open house page</a>
         <h2>Type: <?= htmlspecialchars($item['item_type']) ?></h2>
         <p>Price: kr. <?= number_format($item['item_price'], 0, ',', '.') ?></p>
         <p>Rooms: <?= number_format($item['item_number_of_rooms']) ?></p>
