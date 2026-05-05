@@ -25,15 +25,84 @@ try {
 ?>
 
 <browser mix-update="aside">
-    <section>
-        <h2>Type: <?= htmlspecialchars($item['item_type']) ?></h2>
-        <p>Price: kr. <?= number_format($item['item_price'], 0, ',', '.') ?></p>
-        <p>Rooms: <?= number_format($item['item_number_of_rooms']) ?></p>
-        <p>Address: <?= htmlspecialchars($item['item_road_name']) ?> <?= htmlspecialchars($item['item_house_number'])?>, <?= htmlspecialchars($item['item_zip_code']) ?>, <?= htmlspecialchars($item['item_city_name']) ?></p>
-        <p>Energy label: <?= htmlspecialchars($item['item_energy_label']) ?></p>
-        <img src="<?= htmlspecialchars($item['item_main_image_path']) ?>" alt="Image of a <?= htmlspecialchars($item['item_type']) ?>">
-        <img src="<?= htmlspecialchars($item['item_floor_plan_path']) ?>" alt="Floor plan of a <?= htmlspecialchars($item['item_type'])?>">
-        <a href="https://www.google.com/maps/place/<?= htmlspecialchars($item['item_road_name']) ?>+<?= htmlspecialchars($item['item_house_number']) ?>,+<?= htmlspecialchars($item['item_zip_code']) ?>+<?= htmlspecialchars($item['item_city_name']) ?>" target="_blank">Google maps</a>
-        <button mix-put="api-mark-as-sold?item_pk=<?= $item_pk ?>">Mark as sold</button>
+    <section class="property-card">
+
+        <div class="property-image">
+            <img 
+                src="<?= !empty($item['item_main_image_path']) 
+                    ? htmlspecialchars($item['item_main_image_path']) 
+                    : 'sofa_dummy.png' 
+                ?>" 
+                alt="Image of a <?= htmlspecialchars($item['item_type'] ?? 'item') ?>"
+                onerror="this.src='sofa_dummy.png'"
+            >
+        </div>
+
+        <div class="property-content">
+
+            <p class="property-type">
+                <?= htmlspecialchars($item['item_type']) ?>
+                |
+                Energy label <?= htmlspecialchars($item['item_energy_label']) ?>
+            </p>
+
+            <h2 class="property-price">
+                <?= number_format($item['item_price'], 0, ',', '.') ?> kr.
+            </h2>
+
+            <h3 class="property-address">
+                <?= htmlspecialchars($item['item_road_name']) ?> 
+                <?= htmlspecialchars($item['item_house_number']) ?>,
+                <?= htmlspecialchars($item['item_zip_code']) ?>
+                <?= htmlspecialchars($item['item_city_name']) ?>
+            </h3>
+
+            <div class="property-info">
+                <div>
+                    <span>Rooms</span>
+                    <strong><?= number_format($item['item_number_of_rooms']) ?></strong>
+                </div>
+
+                <div>
+                    <span>Type</span>
+                    <strong><?= htmlspecialchars($item['item_type']) ?></strong>
+                </div>
+            </div>
+
+            <div class="property-actions">
+                <a 
+                    class="primary-btn"
+                    href="https://www.google.com/maps/place/<?= htmlspecialchars($item['item_road_name']) ?>+<?= htmlspecialchars($item['item_house_number']) ?>,+<?= htmlspecialchars($item['item_zip_code']) ?>+<?= htmlspecialchars($item['item_city_name']) ?>" 
+                    target="_blank"
+                >
+                    Google maps
+                </a>
+
+                <!-- <button 
+                    class="secondary-btn"
+                    mix-put="api-mark-as-sold?item_pk=<?= $item_pk ?>"
+                >
+                    Mark as sold
+                </button> -->
+
+                <a href="/"
+                    class="secondary-btn"
+                >
+                    See full property
+                </a>
+            </div>
+
+           <div class="floor-plan">
+                <img 
+                    src="<?= !empty($item['item_floor_plan_path']) 
+                        ? htmlspecialchars($item['item_floor_plan_path']) 
+                        : 'floor_plan_dummy.png' 
+                    ?>" 
+                    alt="Floor plan of a <?= htmlspecialchars($item['item_type'] ?? 'item') ?>"
+                    onerror="this.onerror=null; this.src='floor_plan_dummy.png';"
+                >
+            </div>
+
+        </div>
     </section>
 </browser>
