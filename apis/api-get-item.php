@@ -88,7 +88,7 @@ try {
                 <a href="/"
                     class="secondary-btn"
                 >
-                    See full propertys
+                    See full property
                 </a>
             </div>
 
