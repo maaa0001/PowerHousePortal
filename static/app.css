@@ -547,26 +547,22 @@ main {
   height: 100%;
   display: grid;
   grid-template-columns: 2fr 1fr;
-}
-
-#map {
-  width: 100%;
-  height: 100%;
-}
-
-.marker {
-  width: 0.8rem;
-  height: 0.8rem;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.marker.villa {
-  background-color: rgb(71, 200, 74);
-}
-
-.marker.condo {
-  background-color: rgb(200, 77, 71);
+  #map {
+    width: 100%;
+    height: 100%;
+    .marker {
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+      cursor: pointer;
+      &.villa {
+        background-color: rgb(71, 200, 74);
+      }
+      &.condo {
+        background-color: rgb(200, 77, 71);
+      }
+    }
+  }
 }
 
 footer {
