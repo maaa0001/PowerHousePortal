@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__.'/../db.php';
 
 require_once __DIR__.'/../apis/api-filter-items.php';
@@ -31,17 +30,13 @@ $max_db_rooms = $stmt->fetchColumn() ?: 10;
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+';
 
-
-    <link rel="stylesheet" href="/static/app.css">
-    <title>Document</title>
-</head>
-<body>
+require_once __DIR__.'/_header.php';
+?>
 
     <header>
         <form method="GET" class="filter-form" id="filter-form" onsubmit="return false;">
@@ -279,8 +274,4 @@ $max_db_rooms = $stmt->fetchColumn() ?: 10;
         <aside></aside>
     </main>
 
-
-
-
-</body>
-</html>
+    <?php require_once __DIR__.'/_footer.php'; ?>
