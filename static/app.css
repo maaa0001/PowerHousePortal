@@ -662,7 +662,7 @@ header {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 400px; /* Double width as requested */
+  min-width: 400px;
 }
 
 .city-input-wrapper {
