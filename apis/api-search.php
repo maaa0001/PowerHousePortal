@@ -2,21 +2,19 @@
 
 require_once __DIR__."/../db.php";
 
+require_once __DIR__."/api-filter-items.php";
 
-$rooms = $_GET['rooms'];
+// Construct the URL parameters for clear_markers to update the browser history
+$url_props = [];
+foreach ($_GET as $key => $value) {
+    if (!empty($value)) {
+        $url_props[] = [$key => $value];
+    }
+}
 
-$sql = "SELECT * FROM items WHERE number_of_rooms = :rooms"; 
-$stmt = $_db->prepare( $sql);
-$stmt->bindValue(':rooms', $rooms);
-$stmt->execute();
-$items = $stmt->fetchAll();
-
-$data = ["url"=>
-[
-    ["rooms"=>$rooms],
-    ["baths"=>1]
-], 
-"items"=>$items
+$data = [
+    "url" => $url_props,
+    "items" => $items
 ];
 ?>
 
