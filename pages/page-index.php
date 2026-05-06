@@ -17,7 +17,8 @@ $max_db_area = ceil($max_db_area / 10) * 10;
 $stmt = $_db->query("SELECT MAX(CAST(item_number_of_rooms AS UNSIGNED)) FROM items");
 $max_db_rooms = $stmt->fetchColumn() ?: 10;
 
-?>
+$title = "Map";
+$head_extras = '
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +41,14 @@ require_once __DIR__.'/_header.php';
 
     <header>
         <form method="GET" class="filter-form" id="filter-form" onsubmit="return false;">
-            <div class="filter-group">
+            <div class="filter-group city-search-group">
+                <label for="city-input">Cities</label>
+                <div class="city-input-wrapper">
+                    <input type="text" id="city-input" autocomplete="off" placeholder="Add city..." oninput="getSuggestions(this.value)">
+                    <div id="city-pills" class="city-pills"></div>
+                </div>
+                <div id="city-suggestions" class="suggestions-list"></div>
+            </div>            <div class="filter-group">
                 <label for="item_type">Type</label>
                 <select name="item_type" id="item_type" onchange="filter()">
                     <option value="">All</option>
@@ -66,13 +74,6 @@ require_once __DIR__.'/_header.php';
                     <input type="range" name="min_area" id="min_area" min="0" max="<?= $max_db_area ?>" step="1" value="<?= $_GET['min_area'] ?? 0 ?>" oninput="updateRange(this, 'min', 'area')">
                     <input type="range" name="max_area" id="max_area" min="0" max="<?= $max_db_area ?>" step="1" value="<?= $_GET['max_area'] ?? $max_db_area ?>" oninput="updateRange(this, 'max', 'area')">
                 </div>
-            </div>
-
-            <div class="filter-group city-search-group">
-                <label for="city">Cities</label>
-                <div id="city-pills" class="city-pills"></div>
-                <input type="text" id="city-input" autocomplete="off" placeholder="Add city..." oninput="getSuggestions(this.value)">
-                <div id="city-suggestions" class="suggestions-list"></div>
             </div>
 
             <div class="filter-group">
@@ -144,7 +145,7 @@ require_once __DIR__.'/_header.php';
         async function getSuggestions(query) {
             clearTimeout(suggestionTimeout);
             const suggestionsContainer = document.getElementById('city-suggestions');
-            
+
             if (query.length < 2) {
                 suggestionsContainer.innerHTML = '';
                 return;
@@ -153,7 +154,7 @@ require_once __DIR__.'/_header.php';
             suggestionTimeout = setTimeout(async () => {
                 const response = await fetch(`/apis/api-city-suggestions.php?city=${query}`);
                 const cities = await response.json();
-                
+
                 suggestionsContainer.innerHTML = '';
                 cities.forEach(city => {
                     if (selectedCities.includes(city)) return;
