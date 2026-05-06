@@ -14,21 +14,207 @@ a {
 body {
   width: 100%;
   height: 100vh;
-  overflow-x: hidden;
-  padding-top: 3rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
+header {
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 20px;
+}
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.filter-group {
+    margin-bottom: 0;
+}
+
+.filter-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 3px;
+    font-size: 0.8rem;
+}
+
+.filter-group input[type="text"], 
+.filter-group select {
+    padding: 6px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.filter-group input[type="range"] {
+    width: 150px;
+    cursor: pointer;
+}
+
+.dual-range-container {
+    position: relative;
+    width: 150px;
+    height: 30px; /* Increased height for better alignment */
+    display: flex;
+    align-items: center;
+}
+
+.dual-range-container input[type="range"] {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+    -webkit-appearance: none;
+    z-index: 2;
+    height: 2px; /* Thin slider for better alignment */
+    background: none;
+}
+
+.dual-range-container input[type="range"]::-webkit-slider-thumb {
+    pointer-events: all;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #007bff;
+    -webkit-appearance: none;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.dual-range-container input[type="range"]::-moz-range-thumb {
+    pointer-events: all;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Background track */
+.dual-range-container::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: #dee2e6;
+    left: 0;
+    border-radius: 2px;
+}
+
+.city-search-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.city-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.city-pill {
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
+    border-radius: 16px;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.city-pill button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    color: #6c757d;
+}
+
+.city-pill button:hover {
+    color: #dc3545;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ced4da;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.suggestion-item:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+.filter-actions {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filter-actions button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.filter-actions button:hover {
+    background-color: #0056b3;
+}
+
+.clear-btn {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.clear-btn:hover {
+    text-decoration: underline;
+}
+
 nav {
-  position: fixed;
-  top: 0;
-  left: 0;
+  /* position: fixed; */
+  /* top: 0; */
+  /* left: 0; */
   width: 100%;
   height: 3rem;
+  background: white;
+  border-bottom: 1px solid #eee;
 }
 #filters {
   display: flex;
 }
 main {
-  height: 100%;
+  flex-grow: 1;
   display: grid;
   grid-template-columns: 10fr 3fr;
   #map {
@@ -39,17 +225,26 @@ main {
       height: 0.8rem;
       border-radius: 50%;
       cursor: pointer;
+      background-color: #007bff; /* Default blue */
+      border: 1px solid white;
       &.villa {
         background-color: rgb(71, 200, 74);
       }
       &.condo {
         background-color: rgb(200, 77, 71);
       }
+      &.apartment {
+        background-color: #ffc107;
+      }
+      &.farm, &.hobby\ farm, &.plant\ farm {
+        background-color: #8b4513;
+      }
     }
   }
 }
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  .clear-btn:hover {
+      text-decoration: underline;
+  }
+
 }
