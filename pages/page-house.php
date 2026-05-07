@@ -97,7 +97,7 @@ if( ! is_array($listing_images) || ! count($listing_images) ){
                 </p>
                 <p>
                     <a href="/">Back to map</a>
-                </p>
+                </p> 
             </div>
         </section>
 </body>
