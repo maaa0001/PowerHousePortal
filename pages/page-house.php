@@ -53,11 +53,17 @@ if( ! is_array($listing_images) || ! count($listing_images) ){
     <title>House Details</title>
     <link rel="stylesheet" href="/static/app.css">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
         .house-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
             align-items: start;
+            max-width: 1200px;
+            margin: 2rem auto;
             padding: 2rem;
         }
         .house-images {
@@ -72,7 +78,6 @@ if( ! is_array($listing_images) || ! count($listing_images) ){
     </style>
 </head>
 <body>
-    <main>
         <section class="house-layout">
             <div class="house-images">
                 <?php foreach($listing_images as $image): ?>
@@ -95,6 +100,5 @@ if( ! is_array($listing_images) || ! count($listing_images) ){
                 </p>
             </div>
         </section>
-    </main>
 </body>
 </html>
