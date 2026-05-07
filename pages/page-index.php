@@ -1,34 +1,20 @@
 <?php
-
 require_once __DIR__.'/../db.php';
 $sql = "SELECT * FROM items";
-$stmt = $_db->prepare( $sql);
+$stmt = $_db->prepare($sql);
 $stmt->execute();
 $items = $stmt->fetchAll();
 
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="/static/mixhtml.js"></script>
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+$title = "Map";
+$head_extras = '
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+';
 
-
-    <link rel="stylesheet" href="/static/app.css">
-    <title>Document</title>
-</head>
-<body>
+require_once __DIR__.'/_header.php';
+?>
 
     <main>
         <div id="map"></div>
@@ -126,8 +112,4 @@ $items = $stmt->fetchAll();
         <aside></aside>
     </main>
 
-
-
-
-</body>
-</html>
+    <?php require_once __DIR__.'/_footer.php'; ?>
