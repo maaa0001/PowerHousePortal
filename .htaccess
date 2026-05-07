@@ -1,4 +1,5 @@
 RewriteEngine On
 
 RewriteRule ^$      pages/page-index.php [NC,L]
+RewriteRule ^house/([^/]+)$      /pages/page-house.php?address_slug=$1 [NC,L,QSA]
 RewriteRule ^api-get-item$      /apis/api-get-item.php [NC,L]

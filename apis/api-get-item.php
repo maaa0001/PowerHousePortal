@@ -22,6 +22,13 @@ try {
     echo "System error: " . $ex->getMessage();
     exit();
 }
+
+$address_slug = urlencode(
+    $item['item_road_name'] . "-" .
+    $item['item_house_number'] . "-" .
+    $item['item_zip_code'] . "-" .
+    $item['item_city_name']
+);
 ?>
 
 <browser mix-update="aside">
@@ -85,7 +92,7 @@ try {
                     Mark as sold
                 </button> -->
 
-                <a href="/"
+                <a href="/house/<?= $address_slug ?>"
                     class="secondary-btn"
                 >
                     See full property
