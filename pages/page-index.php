@@ -20,17 +20,9 @@ $max_db_rooms = $stmt->fetchColumn() ?: 10;
 $title = "Map";
 $head_extras = '
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="/static/mixhtml.js"></script>
-    <script src="/static/app.js"></script>
-
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
     <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
@@ -39,240 +31,460 @@ $head_extras = '
 require_once __DIR__.'/_header.php';
 ?>
 
-    <header>
-        <form method="GET" class="filter-form" id="filter-form" onsubmit="return false;">
-            <div class="filter-group city-search-group">
-                <label for="city-input">Cities</label>
-                <div class="city-input-wrapper">
-                    <input type="text" id="city-input" autocomplete="off" placeholder="Add city..." oninput="getSuggestions(this.value)">
-                    <div id="city-pills" class="city-pills"></div>
-                </div>
-                <div id="city-suggestions" class="suggestions-list"></div>
-            </div>            <div class="filter-group">
-                <label for="item_type">Type</label>
-                <select name="item_type" id="item_type" onchange="filter()">
-                    <option value="">All</option>
-                    <?php foreach ($all_types as $type): ?>
-                        <option value="<?= htmlspecialchars($type) ?>" <?= isset($_GET['item_type']) && $_GET['item_type'] == $type ? 'selected' : '' ?>>
-                            <?= htmlspecialchars(ucfirst($type)) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+<header>
+    <form method="GET" class="filter-form" id="filter-form" onsubmit="return false;">
+        <div class="filter-group city-search-group">
+            <label for="city-input">Cities</label>
+            <div class="city-input-wrapper">
+                <input type="text" id="city-input" autocomplete="off" placeholder="Add city..." oninput="getSuggestions(this.value)">
+                <div id="city-pills" class="city-pills"></div>
             </div>
+            <div id="city-suggestions" class="suggestions-list"></div>
+        </div>
 
-            <div class="filter-group">
-                <label>Price: <span id="min_price_val"><?= number_format($_GET['min_price'] ?? 0) ?></span> - <span id="max_price_val"><?= number_format($_GET['max_price'] ?? $max_db_price) ?></span></label>
-                <div class="dual-range-container">
-                    <input type="range" name="min_price" id="min_price" min="0" max="<?= $max_db_price ?>" step="100000" value="<?= $_GET['min_price'] ?? 0 ?>" oninput="updateRange(this, 'min', 'price')">
-                    <input type="range" name="max_price" id="max_price" min="0" max="<?= $max_db_price ?>" step="100000" value="<?= $_GET['max_price'] ?? $max_db_price ?>" oninput="updateRange(this, 'max', 'price')">
-                </div>
+        <div class="filter-group">
+            <label for="item_type">Type</label>
+            <select name="item_type" id="item_type" onchange="filter()">
+                <option value="">All</option>
+                <?php foreach ($all_types as $type): ?>
+                    <option value="<?= htmlspecialchars($type) ?>" <?= isset($_GET['item_type']) && $_GET['item_type'] == $type ? 'selected' : '' ?>>
+                        <?= htmlspecialchars(ucfirst($type)) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>
+                Price:
+                <span id="min_price_val"><?= number_format($_GET['min_price'] ?? 0) ?></span>
+                -
+                <span id="max_price_val"><?= number_format($_GET['max_price'] ?? $max_db_price) ?></span>
+            </label>
+            <div class="dual-range-container">
+                <input type="range" name="min_price" id="min_price" min="0" max="<?= $max_db_price ?>" step="100000" value="<?= $_GET['min_price'] ?? 0 ?>" oninput="updateRange(this, 'min', 'price')">
+                <input type="range" name="max_price" id="max_price" min="0" max="<?= $max_db_price ?>" step="100000" value="<?= $_GET['max_price'] ?? $max_db_price ?>" oninput="updateRange(this, 'max', 'price')">
             </div>
+        </div>
 
-            <div class="filter-group">
-                <label>Area (m²): <span id="min_area_val"><?= $_GET['min_area'] ?? 0 ?></span> - <span id="max_area_val"><?= $_GET['max_area'] ?? $max_db_area ?></span></label>
-                <div class="dual-range-container">
-                    <input type="range" name="min_area" id="min_area" min="0" max="<?= $max_db_area ?>" step="1" value="<?= $_GET['min_area'] ?? 0 ?>" oninput="updateRange(this, 'min', 'area')">
-                    <input type="range" name="max_area" id="max_area" min="0" max="<?= $max_db_area ?>" step="1" value="<?= $_GET['max_area'] ?? $max_db_area ?>" oninput="updateRange(this, 'max', 'area')">
-                </div>
+        <div class="filter-group">
+            <label>
+                Area (m²):
+                <span id="min_area_val"><?= $_GET['min_area'] ?? 0 ?></span>
+                -
+                <span id="max_area_val"><?= $_GET['max_area'] ?? $max_db_area ?></span>
+            </label>
+            <div class="dual-range-container">
+                <input type="range" name="min_area" id="min_area" min="0" max="<?= $max_db_area ?>" step="1" value="<?= $_GET['min_area'] ?? 0 ?>" oninput="updateRange(this, 'min', 'area')">
+                <input type="range" name="max_area" id="max_area" min="0" max="<?= $max_db_area ?>" step="1" value="<?= $_GET['max_area'] ?? $max_db_area ?>" oninput="updateRange(this, 'max', 'area')">
             </div>
+        </div>
 
-            <div class="filter-group">
-                <label>Rooms: <span id="min_rooms_val"><?= $_GET['min_rooms'] ?? 0 ?></span> - <span id="max_rooms_val"><?= $_GET['max_rooms'] ?? $max_db_rooms ?></span></label>
-                <div class="dual-range-container">
-                    <input type="range" name="min_rooms" id="min_rooms" min="0" max="<?= $max_db_rooms ?>" step="1" value="<?= $_GET['min_rooms'] ?? 0 ?>" oninput="updateRange(this, 'min', 'rooms')">
-                    <input type="range" name="max_rooms" id="max_rooms" min="0" max="<?= $max_db_rooms ?>" step="1" value="<?= $_GET['max_rooms'] ?? $max_db_rooms ?>" oninput="updateRange(this, 'max', 'rooms')">
-                </div>
+        <div class="filter-group">
+            <label>
+                Rooms:
+                <span id="min_rooms_val"><?= $_GET['min_rooms'] ?? 0 ?></span>
+                -
+                <span id="max_rooms_val"><?= $_GET['max_rooms'] ?? $max_db_rooms ?></span>
+            </label>
+            <div class="dual-range-container">
+                <input type="range" name="min_rooms" id="min_rooms" min="0" max="<?= $max_db_rooms ?>" step="1" value="<?= $_GET['min_rooms'] ?? 0 ?>" oninput="updateRange(this, 'min', 'rooms')">
+                <input type="range" name="max_rooms" id="max_rooms" min="0" max="<?= $max_db_rooms ?>" step="1" value="<?= $_GET['max_rooms'] ?? $max_db_rooms ?>" oninput="updateRange(this, 'max', 'rooms')">
             </div>
+        </div>
 
-            <div class="filter-actions">
-                <a href="/" class="clear-btn">Clear</a>
-            </div>
-        </form>
-    </header>
+        <div class="filter-actions">
+            <a href="/" class="clear-btn">Clear</a>
+        </div>
+    </form>
+</header>
 
-    <script>
-        let filterTimeout = null;
-        let suggestionTimeout = null;
-        let selectedCities = <?= json_encode(is_array($_GET['cities'] ?? []) ? ($_GET['cities'] ?? []) : explode(',', $_GET['cities'] ?? '')) ?>.filter(c => c !== '');
+<main>
+    <div id="map"></div>
+    <aside id="visible-items-list"></aside>
+</main>
 
-        // Initialize pills on load
-        window.addEventListener('DOMContentLoaded', () => {
-            renderPills();
-        });
+<script>
+    let filterTimeout = null;
+    let suggestionTimeout = null;
 
-        function filter() {
-            console.log("Filter triggered");
-            clearTimeout(filterTimeout);
-            filterTimeout = setTimeout(() => {
-                const form = document.getElementById('filter-form');
-                const formData = new FormData(form);
-                const searchParams = new URLSearchParams(formData);
-                const cleanParams = new URLSearchParams();
-                for (const [key, value] of searchParams.entries()) {
-                    if (value && key !== 'cities') cleanParams.set(key, value);
+    let selectedCities = <?= json_encode(is_array($_GET['cities'] ?? []) ? ($_GET['cities'] ?? []) : explode(',', $_GET['cities'] ?? '')) ?>.filter(c => c !== '');
+
+    window.addEventListener('DOMContentLoaded', () => {
+        renderPills();
+    });
+
+    function filter() {
+        clearTimeout(filterTimeout);
+
+        filterTimeout = setTimeout(() => {
+            const form = document.getElementById('filter-form');
+            const formData = new FormData(form);
+            const searchParams = new URLSearchParams(formData);
+            const cleanParams = new URLSearchParams();
+
+            for (const [key, value] of searchParams.entries()) {
+                if (value && key !== 'cities') {
+                    cleanParams.set(key, value);
                 }
-                if (selectedCities.length > 0) {
-                    cleanParams.set('cities', selectedCities.join(','));
-                }
-                const url = `/apis/api-search.php?${cleanParams.toString()}`;
-                console.log("Fetching filtered data from:", url);
-                mix_fetch(url, "GET", null, false);
-            }, 300);
+            }
+
+            if (selectedCities.length > 0) {
+                cleanParams.set('cities', selectedCities.join(','));
+            }
+
+            const url = `/apis/api-search.php?${cleanParams.toString()}`;
+            mix_fetch(url, "GET", null, false);
+        }, 300);
+    }
+
+    function updateRange(el, type, suffix) {
+        const minEl = document.getElementById(`min_${suffix}`);
+        const maxEl = document.getElementById(`max_${suffix}`);
+        const minVal = parseInt(minEl.value);
+        const maxVal = parseInt(maxEl.value);
+
+        if (type === 'min' && minVal > maxVal) {
+            minEl.value = maxVal;
+        } else if (type === 'max' && maxVal < minVal) {
+            maxEl.value = minVal;
         }
 
-        function updateRange(el, type, suffix) {
-            const minEl = document.getElementById(`min_${suffix}`);
-            const maxEl = document.getElementById(`max_${suffix}`);
-            const minVal = parseInt(minEl.value);
-            const maxVal = parseInt(maxEl.value);
+        if (suffix === 'price') {
+            document.getElementById(`min_${suffix}_val`).innerText = parseInt(minEl.value).toLocaleString();
+            document.getElementById(`max_${suffix}_val`).innerText = parseInt(maxEl.value).toLocaleString();
+        } else {
+            document.getElementById(`min_${suffix}_val`).innerText = minEl.value;
+            document.getElementById(`max_${suffix}_val`).innerText = maxEl.value;
+        }
 
-            if (type === 'min' && minVal > maxVal) {
-                minEl.value = maxVal;
-            } else if (type === 'max' && maxVal < minVal) {
-                maxEl.value = minVal;
-            }
+        filter();
+    }
 
-            if (suffix === 'price') {
-                document.getElementById(`min_${suffix}_val`).innerText = parseInt(minEl.value).toLocaleString();
-                document.getElementById(`max_${suffix}_val`).innerText = parseInt(maxEl.value).toLocaleString();
-            } else {
-                document.getElementById(`min_${suffix}_val`).innerText = minEl.value;
-                document.getElementById(`max_${suffix}_val`).innerText = maxEl.value;
-            }
+    async function getSuggestions(query) {
+        clearTimeout(suggestionTimeout);
+
+        const suggestionsContainer = document.getElementById('city-suggestions');
+
+        if (query.length < 2) {
+            suggestionsContainer.innerHTML = '';
+            return;
+        }
+
+        suggestionTimeout = setTimeout(async () => {
+            const response = await fetch(`/apis/api-city-suggestions.php?city=${query}`);
+            const cities = await response.json();
+
+            suggestionsContainer.innerHTML = '';
+
+            cities.forEach(city => {
+                if (selectedCities.includes(city)) return;
+
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.innerText = city;
+
+                div.onmousedown = (e) => {
+                    e.preventDefault();
+                    selectCity(city);
+                };
+
+                suggestionsContainer.appendChild(div);
+            });
+        }, 200);
+    }
+
+    function selectCity(city) {
+        if (!selectedCities.includes(city)) {
+            selectedCities.push(city);
+            renderPills();
             filter();
         }
 
-        async function getSuggestions(query) {
-            clearTimeout(suggestionTimeout);
-            const suggestionsContainer = document.getElementById('city-suggestions');
+        document.getElementById('city-input').value = '';
+        document.getElementById('city-suggestions').innerHTML = '';
+    }
 
-            if (query.length < 2) {
-                suggestionsContainer.innerHTML = '';
-                return;
-            }
+    function removeCity(city) {
+        selectedCities = selectedCities.filter(c => c !== city);
+        renderPills();
+        filter();
+    }
 
-            suggestionTimeout = setTimeout(async () => {
-                const response = await fetch(`/apis/api-city-suggestions.php?city=${query}`);
-                const cities = await response.json();
+    function renderPills() {
+        const container = document.getElementById('city-pills');
+        container.innerHTML = '';
 
-                suggestionsContainer.innerHTML = '';
-                cities.forEach(city => {
-                    if (selectedCities.includes(city)) return;
-                    const div = document.createElement('div');
-                    div.className = 'suggestion-item';
-                    div.innerText = city;
-                    div.onmousedown = (e) => {
-                        e.preventDefault(); // Prevent input blur
-                        selectCity(city);
-                    };
-                    suggestionsContainer.appendChild(div);
-                });
-            }, 200);
-        }
+        selectedCities.forEach(city => {
+            const pill = document.createElement('div');
+            pill.className = 'city-pill';
+            pill.innerHTML = `
+                <span>${city}</span>
+                <button type="button" onclick="removeCity('${city}')">&times;</button>
+            `;
+            container.appendChild(pill);
+        });
+    }
 
-        function selectCity(city) {
-            if (!selectedCities.includes(city)) {
-                selectedCities.push(city);
-                renderPills();
-                filter();
-            }
-            const cityInput = document.getElementById('city-input');
-            cityInput.value = '';
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.city-search-group')) {
             document.getElementById('city-suggestions').innerHTML = '';
         }
+    });
 
-        function removeCity(city) {
-            selectedCities = selectedCities.filter(c => c !== city);
-            renderPills();
-            filter();
-        }
+    const map = L.map('map').setView([55.67960020013266, 12.56464935119663], 7);
 
-        function renderPills() {
-            const container = document.getElementById('city-pills');
-            container.innerHTML = '';
-            selectedCities.forEach(city => {
-                const pill = document.createElement('div');
-                pill.className = 'city-pill';
-                pill.innerHTML = `
-                    <span>${city}</span>
-                    <button type="button" onclick="removeCity('${city}')">&times;</button>
-                `;
-                container.appendChild(pill);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd',
+        maxZoom: 18
+    }).addTo(map);
+
+    const markers = L.markerClusterGroup({
+        disableClusteringAtZoom: 15,
+        spiderfyOnMaxZoom: true,
+        maxClusterRadius: 100
+    });
+
+    map.addLayer(markers);
+
+    const items = <?= json_encode($items); ?>;
+    let currentItems = items;
+    let selectedItemPk = null;
+    let isPropertyDetailOpen = false;
+    let isProgrammaticMapMove = false;
+    const itemsPerPage = 24;
+    let visibleItemsPage = 1;
+    let relatedVisibleItemsPage = 1;
+
+    function renderMarkers(itemsToRender) {
+        markers.clearLayers();
+
+        itemsToRender.forEach(item => {
+            const marker = L.marker([
+                parseFloat(item.item_lat),
+                parseFloat(item.item_lon)
+            ], {
+                icon: L.divIcon({
+                    className: '',
+                    html: `
+                        <button
+                            class="marker ${item.item_type} ${item.item_pk === selectedItemPk ? 'selected' : ''}"
+                            onclick="selectVisibleProperty('${escapeHtml(item.item_pk)}', ${parseFloat(item.item_lat)}, ${parseFloat(item.item_lon)}); return false;">
+                        </button>
+                    `,
+                }),
+                item_pk: item.item_pk,
+                zIndexOffset: item.item_pk === selectedItemPk ? 1000 : 0
             });
-        }
 
-        // Close suggestions when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.city-search-group')) {
-                document.getElementById('city-suggestions').innerHTML = '';
-            }
+            markers.addLayer(marker);
         });
-    </script>
+    }
 
-    <main>
-        <div id="map"></div>
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, char => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        })[char]);
+    }
 
+    function getGoogleMapsUrl(item) {
+        const address = `${item.item_road_name} ${item.item_house_number}, ${item.item_zip_code} ${item.item_city_name}`;
+        return `https://www.google.com/maps/place/${encodeURIComponent(address)}`;
+    }
 
-            <script>
+    function getPropertyUrl(item) {
+        const address = `${item.item_road_name}-${item.item_house_number}-${item.item_zip_code}-${item.item_city_name}`;
+        return `/house/${encodeURIComponent(address)}`;
+    }
 
+    function zoomToProperty(lat, lon) {
+        isProgrammaticMapMove = true;
+        map.once('moveend', () => {
+            isProgrammaticMapMove = false;
+        });
 
-            // Create custom icon
-            var house_icon = L.icon({
-                // iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
-                iconUrl: 'http://127.0.0.1/static/house.svg',
-                iconSize: [24, 24],
-                iconAnchor: [16, 16],
-                popupAnchor: [0, -24]
+        map.setView([lat, lon], 16, {
+            animate: true
+        });
+    }
+
+    async function selectVisibleProperty(itemPk, lat, lon) {
+        selectedItemPk = itemPk;
+        isPropertyDetailOpen = true;
+        renderMarkers(currentItems);
+        zoomToProperty(lat, lon);
+        await mix_fetch(`/apis/api-get-item.php?item_pk=${itemPk}`, 'GET', null, false);
+        renderVisibleItemsBelowSelected(itemPk);
+    }
+
+    function getVisibleItems() {
+        const bounds = map.getBounds();
+
+        return currentItems.filter(item => {
+            return bounds.contains([
+                parseFloat(item.item_lat),
+                parseFloat(item.item_lon)
+            ]);
+        });
+    }
+
+    function renderVisibleItemCard(item) {
+        return `
+                <article class="property-card visible-item"
+                    onclick="selectVisibleProperty('${escapeHtml(item.item_pk)}', ${parseFloat(item.item_lat)}, ${parseFloat(item.item_lon)})">
+
+                    <div class="property-image">
+                        <img
+                            src="${escapeHtml(item.item_main_image_path && item.item_main_image_path !== '0' ? item.item_main_image_path : 'sofa_dummy.png')}"
+                            alt="Image of a ${escapeHtml(item.item_type || 'property')}"
+                            onerror="this.src='sofa_dummy.png'">
+                    </div>
+
+                    <div class="property-content">
+                        <p class="property-type">
+                            ${escapeHtml(item.item_type)}
+                            ${item.item_energy_label && item.item_energy_label !== '0' ? `| Energy label ${escapeHtml(item.item_energy_label)}` : ''}
+                        </p>
+
+                        <h3 class="property-price">${Number(item.item_price).toLocaleString()} kr.</h3>
+
+                        <h4 class="property-address">
+                            ${escapeHtml(item.item_road_name)} ${escapeHtml(item.item_house_number)},
+                            ${escapeHtml(item.item_zip_code)} ${escapeHtml(item.item_city_name)}
+                        </h4>
+
+                        <div class="property-info">
+                            <div>
+                                <span>Rooms</span>
+                                <strong>${escapeHtml(item.item_number_of_rooms)}</strong>
+                            </div>
+
+                            <div>
+                                <span>Area</span>
+                                <strong>${escapeHtml(item.item_floor_square_meters)} m²</strong>
+                            </div>
+                        </div>
+
+                        <div class="property-actions">
+                            <a
+                                class="primary-btn"
+                                href="${escapeHtml(getGoogleMapsUrl(item))}"
+                                target="_blank"
+                                onclick="event.stopPropagation()">
+                                Maps
+                            </a>
+
+                            <a
+                                class="secondary-btn"
+                                href="${escapeHtml(getPropertyUrl(item))}"
+                                onclick="event.stopPropagation()">
+                                View property
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            `;
+    }
+
+    function renderLoadMoreButton(onclick) {
+        return `
+            <button
+                type="button"
+                class="secondary-btn load-more-visible"
+                onclick="event.stopPropagation(); ${onclick}">
+                Show next 24
+            </button>
+        `;
+    }
+
+    function renderVisibleItemsPage() {
+        const aside = document.getElementById('visible-items-list');
+        const visibleItems = getVisibleItems();
+        const shownItems = visibleItems.slice(0, visibleItemsPage * itemsPerPage);
+        const hasMoreItems = shownItems.length < visibleItems.length;
+
+        aside.innerHTML = `
+            ${shownItems.map(renderVisibleItemCard).join('')}
+            ${hasMoreItems ? renderLoadMoreButton('showNextVisibleItems()') : ''}
+        `;
+    }
+
+    function showNextVisibleItems() {
+        visibleItemsPage++;
+        renderVisibleItemsPage();
+    }
+
+    function updateVisibleItemsList() {
+        if (isPropertyDetailOpen) {
+            return;
+        }
+
+        visibleItemsPage = 1;
+        renderVisibleItemsPage();
+    }
+
+    function renderVisibleItemsBelowSelected(selectedPk) {
+        relatedVisibleItemsPage = 1;
+        renderRelatedVisibleItemsPage(selectedPk);
+    }
+
+    function renderRelatedVisibleItemsPage(selectedPk) {
+        const aside = document.getElementById('visible-items-list');
+        document.getElementById('related-visible-items')?.remove();
+
+        const visibleItems = getVisibleItems().filter(item => item.item_pk !== selectedPk);
+        const shownItems = visibleItems.slice(0, relatedVisibleItemsPage * itemsPerPage);
+        const hasMoreItems = shownItems.length < visibleItems.length;
+
+        aside.insertAdjacentHTML('beforeend', `
+            <div id="related-visible-items">
+                ${shownItems.map(renderVisibleItemCard).join('')}
+                ${hasMoreItems ? renderLoadMoreButton(`showNextRelatedVisibleItems('${escapeHtml(selectedPk)}')`) : ''}
+            </div>
+        `);
+    }
+
+    function showNextRelatedVisibleItems(selectedPk) {
+        relatedVisibleItemsPage++;
+        renderRelatedVisibleItemsPage(selectedPk);
+    }
+
+    function update_map_items(response) {
+        const data = typeof response === 'string' ? JSON.parse(response) : response;
+        currentItems = Array.isArray(data.items) ? data.items : [];
+        selectedItemPk = null;
+        isPropertyDetailOpen = false;
+
+        renderMarkers(currentItems);
+        updateVisibleItemsList();
+
+        if (data.url) {
+            const params = new URLSearchParams();
+
+            data.url.forEach(obj => {
+                const key = Object.keys(obj)[0];
+                params.set(key, obj[key]);
             });
-            var apartment_icon = L.icon({
-                // iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
-                iconUrl: 'http://127.0.0.1/static/apartment.svg',
-                iconSize: [24, 24],
-                iconAnchor: [16, 16],
-                popupAnchor: [0, -24]
-            });
 
-            // Initialize the map
-            const map = L.map('map').setView([55.67960020013266, 12.56464935119663], 7);
+            window.history.pushState({}, "", "?" + params.toString());
+        }
+    }
 
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; OpenStreetMap &copy; CARTO',
-                subdomains: 'abcd',
-                maxZoom: 18
-            }).addTo(map);
+    map.on('dragstart zoomstart', () => {
+        if (!isProgrammaticMapMove) {
+            isPropertyDetailOpen = false;
+        }
+    });
 
-            // var markers = L.markerClusterGroup();
-            var markers = L.markerClusterGroup({
-                disableClusteringAtZoom: 15,  // <- key option
-                spiderfyOnMaxZoom: true,
-                // showCoverageOnHover: false,
-                maxClusterRadius: 100   // default is 100 pixels
-            });
+    map.on('moveend zoomend', updateVisibleItemsList);
 
-            const items = <?php echo json_encode($items); ?>
+    renderMarkers(currentItems);
+    updateVisibleItemsList();
+</script>
 
-            items.forEach(item => {
-                var marker = L.marker([item.item_lat, item.item_lon], {
-                    icon: L.divIcon({
-                        className: '',
-                        html: `
-                            <button
-                                class="marker ${item.item_type}" onclick="mixhtml(); return false;"
-                                mix-get="api-get-item?item_pk=${item.item_pk}">
-                            </button>
-                        `,
-                    }),
-                    item_pk: item.item_pk
-                });
-                markers.addLayer(marker)
-            });
-            map.addLayer(markers)
-
-
-        </script>
-
-
-        <aside></aside>
-    </main>
-
-    <?php require_once __DIR__.'/_footer.php'; ?>
+<?php require_once __DIR__.'/_footer.php'; ?>

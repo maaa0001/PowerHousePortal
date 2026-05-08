@@ -50,6 +50,7 @@
 
   /* --- Layout --- */
   --nav-height: 3rem;
+  --footer-height: 30.5px;
   --aside-width: 340px;
   --border-radius: 6px;
   --border-radius-lg: 12px;
@@ -286,7 +287,7 @@ nav .nav-links a.active {
 main {
   height: calc(100vh - var(--nav-height) - var(--footer-height));
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1.7fr 1fr;
   overflow: hidden;
 }
 
@@ -299,14 +300,77 @@ main {
 
 /* ASIDE */
 aside {
-  height: 100%;
+  height: calc(100% - var(--footer-height));
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
 
-  padding: var(--space-4);
+  padding: var(--space-3);
   background-color: var(--color-surface-alt);
   border-left: 1px solid var(--color-border);
+}
+
+#visible-items-list .visible-item {
+  width: 100%;
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+#visible-items-list .visible-item:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+#visible-items-list .selected-property {
+  cursor: default;
+  border-color: var(--color-accent);
+  box-shadow:
+    0 0 0 2px rgba(76, 111, 192, 0.18),
+    var(--shadow-md);
+}
+
+#visible-items-list .visible-item .property-image {
+  width: 38%;
+  min-width: 110px;
+}
+
+#visible-items-list .visible-item .property-content {
+  flex: 1;
+  min-width: 0;
+}
+
+#visible-items-list .visible-item .property-price {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+
+#visible-items-list .visible-item .property-address {
+  min-height: 0;
+  font-size: var(--text-base);
+  margin-bottom: var(--space-3);
+}
+
+#visible-items-list .visible-item .property-info {
+  gap: var(--space-3);
+  padding: var(--space-3) 0 0;
+  margin-bottom: var(--space-3);
+  border-bottom: 0;
+}
+
+#visible-items-list .visible-item .primary-btn,
+#visible-items-list .visible-item .secondary-btn {
+  flex: 1;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.load-more-visible {
+  width: 100%;
+  margin-bottom: var(--space-3);
 }
 
 /* ============================================================
@@ -329,6 +393,14 @@ aside {
   transform: scale(1.4);
 }
 
+.marker.selected {
+  transform: scale(2);
+  border-color: var(--color-text-inverse);
+  box-shadow:
+    0 0 0 4px rgba(76, 111, 192, 0.24),
+    var(--shadow-lg);
+}
+
 .marker.villa {
   background-color: var(--color-marker-villa);
 }
@@ -347,7 +419,8 @@ aside {
    ============================================================ */
 
 .property-card {
-  padding: var(--space-5);
+  display: flex;
+  padding: var(--space-3);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -764,7 +837,7 @@ nav {
 main {
   flex-grow: 1;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1.6fr 1fr;
   #map {
     width: 100%;
     height: 100%;
@@ -799,13 +872,6 @@ footer {
   }
 }
 
-aside {
-  height: 100%;
-  overflow-y: auto;
-  padding: var(--space-4);
-  background-color: var(--color-surface-alt);
-}
-
 .property-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -815,8 +881,8 @@ aside {
 }
 
 .property-image {
-  width: 100%;
-  aspect-ratio: 4 / 3;
+  width: 50%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
 }
 
@@ -827,7 +893,7 @@ aside {
 }
 
 .property-content {
-  padding: var(--space-5);
+  padding: var(--space-3);
 }
 
 .property-type {
@@ -845,11 +911,11 @@ aside {
 }
 
 .property-address {
+  min-height: 48px;
   font-family: var(--font-display);
   font-size: 1.2rem;
   line-height: 1.25;
   color: var(--color-text);
-  margin-bottom: 1.5rem;
 }
 
 .property-info {
@@ -878,7 +944,6 @@ aside {
 .property-actions {
   display: flex;
   gap: var(--space-3);
-  margin-bottom: var(--space-5);
 }
 
 .primary-btn,
