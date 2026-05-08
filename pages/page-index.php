@@ -17,7 +17,7 @@ $max_db_area = ceil($max_db_area / 10) * 10;
 $stmt = $_db->query("SELECT MAX(CAST(item_number_of_rooms AS UNSIGNED)) FROM items");
 $max_db_rooms = $stmt->fetchColumn() ?: 10;
 
-$title = "Map";
+$title = "Home | PHP";
 $head_extras = '
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
