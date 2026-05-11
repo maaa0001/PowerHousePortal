@@ -41,6 +41,7 @@ CREATE TABLE `items` (
   `item_house_number` varchar(10) NOT NULL,
   `item_number_of_rooms` varchar(3) NOT NULL,
   `item_year_built` int(4) NOT NULL,
+  `item_images_json` text DEFAULT NULL,
   `item_main_image_path` varchar(500) NOT NULL,
   `item_floor_plan_path` varchar(500) NOT NULL,
   `item_floor_square_meters` int(4) NOT NULL,
