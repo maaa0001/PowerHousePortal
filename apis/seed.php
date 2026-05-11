@@ -1,6 +1,8 @@
 <?php
 
 ini_set('memory_limit', '512M');
+ini_set('max_execution_time', '600'); // 10 minutes
+set_time_limit(600);
 
 require_once __DIR__."/../db.php";
 
@@ -46,10 +48,41 @@ foreach($rows as $row){
             $item_price_per_meter = $item["perAreaPrice"] ?? 0;
             $item_year_built = $item["yearBuilt"] ?? 0;
 
+            // Fetch extra images from case detail API
+            $item_images_json = json_encode([]);
+            if (isset($item["caseID"])) {
+                $case_id = $item["caseID"];
+                $case_detail_url = "https://api.boligsiden.dk/cases/" . $case_id;
+                $case_detail_json = @file_get_contents($case_detail_url);
+                if ($case_detail_json) {
+                    $case_detail = json_decode($case_detail_json, true);
+                    $images = [];
+                    if (isset($case_detail["images"])) {
+                        foreach ($case_detail["images"] as $img_obj) {
+                            if (isset($img_obj["imageSources"])) {
+                                // Prefer 600x600 or 600x400
+                                $found_url = "";
+                                foreach ($img_obj["imageSources"] as $source) {
+                                    if ($source["size"]["width"] == 600) {
+                                        $found_url = $source["url"];
+                                        break;
+                                    }
+                                }
+                                if (!$found_url && !empty($img_obj["imageSources"])) {
+                                    $found_url = $img_obj["imageSources"][0]["url"];
+                                }
+                                if ($found_url) {
+                                    $images[] = $found_url;
+                                }
+                            }
+                        }
+                    }
+                    $item_images_json = json_encode($images);
+                }
+            }
 
 
-
-            $sql = "INSERT INTO items (item_pk, item_lat, item_lon, item_price, item_type, item_city_name, item_house_number, item_road_name, item_zip_code, item_days_listed, item_energy_label, item_floor_square_meters, item_area_square_meters, item_number_of_rooms, item_floor_plan_path, item_main_image_path, item_monthly_expenses, item_price_per_meter, item_year_built) VALUES(:item_pk, :item_lat, :item_lon, :item_price, :item_type, :item_city_name, :item_house_number, :item_road_name, :item_zip_code, :item_days_listed, :item_energy_label, :item_floor_square_meters, :item_area_square_meters, :item_number_of_rooms, :item_floor_plan_path, :item_main_image_path, :item_monthly_expenses, :item_price_per_meter, :item_year_built)";
+            $sql = "INSERT INTO items (item_pk, item_lat, item_lon, item_price, item_type, item_city_name, item_house_number, item_road_name, item_zip_code, item_days_listed, item_energy_label, item_floor_square_meters, item_area_square_meters, item_number_of_rooms, item_floor_plan_path, item_main_image_path, item_monthly_expenses, item_price_per_meter, item_year_built, item_images_json) VALUES(:item_pk, :item_lat, :item_lon, :item_price, :item_type, :item_city_name, :item_house_number, :item_road_name, :item_zip_code, :item_days_listed, :item_energy_label, :item_floor_square_meters, :item_area_square_meters, :item_number_of_rooms, :item_floor_plan_path, :item_main_image_path, :item_monthly_expenses, :item_price_per_meter, :item_year_built, :item_images_json)";
             $stmt = $_db->prepare( $sql);
             $stmt->bindValue(":item_pk", $item_pk );
             $stmt->bindValue(":item_lat", $item_lat );
@@ -70,6 +103,7 @@ foreach($rows as $row){
             $stmt->bindValue(":item_monthly_expenses", $item_monthly_expenses);
             $stmt->bindValue(":item_price_per_meter", $item_price_per_meter);
             $stmt->bindValue(":item_year_built", $item_year_built);
+            $stmt->bindValue(":item_images_json", $item_images_json);
             $stmt->execute();
         }
     }
