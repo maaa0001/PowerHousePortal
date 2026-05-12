@@ -9,7 +9,7 @@
     <?php if (!empty($head_extras)) echo $head_extras; ?>
 <title><?php echo $title ?? "PowerHousePortal"; ?></title>
 </head>
-<body>
+<body<?php if (!empty($body_class)) echo ' class="'.htmlspecialchars($body_class).'"'; ?>>
 <nav>
   <a href="/" class="nav-brand">Power<span>House</span>Portal</a>
   <div class="nav-actions">

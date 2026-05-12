@@ -298,8 +298,9 @@ require_once __DIR__.'/_header.php';
     }
 
     function getPropertyUrl(item) {
-        const address = `${item.item_road_name}-${item.item_house_number}-${item.item_zip_code}-${item.item_city_name}`;
-        return `/house/${encodeURIComponent(address)}`;
+        const toSlugPart = (value) => encodeURIComponent(String(value ?? '').trim().replace(/\s+/g, '_'));
+        const address = `${toSlugPart(item.item_road_name)}-${toSlugPart(item.item_house_number)}-${toSlugPart(item.item_zip_code)}-${toSlugPart(item.item_city_name)}`;
+        return `/house/${address}`;
     }
 
     function zoomToProperty(lat, lon) {

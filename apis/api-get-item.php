@@ -23,12 +23,15 @@ try {
     exit();
 }
 
-$address_slug = urlencode(
-    $item['item_road_name'] . "-" .
-    $item['item_house_number'] . "-" .
-    $item['item_zip_code'] . "-" .
-    $item['item_city_name']
-);
+$slug_part = function($value){
+    return rawurlencode(str_replace(' ', '_', trim((string)$value)));
+};
+
+$address_slug =
+    $slug_part($item['item_road_name']) . "-" .
+    $slug_part($item['item_house_number']) . "-" .
+    $slug_part($item['item_zip_code']) . "-" .
+    $slug_part($item['item_city_name']);
 ?>
 
 <browser mix-update="aside">

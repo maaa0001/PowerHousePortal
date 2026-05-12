@@ -50,12 +50,14 @@ foreach($rows as $row){
 
             // Fetch extra images from case detail API
             $item_images_json = json_encode([]);
+            $item_description_body = "";
             if (isset($item["caseID"])) {
                 $case_id = $item["caseID"];
                 $case_detail_url = "https://api.boligsiden.dk/cases/" . $case_id;
                 $case_detail_json = @file_get_contents($case_detail_url);
                 if ($case_detail_json) {
                     $case_detail = json_decode($case_detail_json, true);
+                    $item_description_body = $case_detail["descriptionBody"] ?? "";
                     $images = [];
                     if (isset($case_detail["images"])) {
                         foreach ($case_detail["images"] as $img_obj) {
@@ -82,7 +84,7 @@ foreach($rows as $row){
             }
 
 
-            $sql = "INSERT INTO items (item_pk, item_lat, item_lon, item_price, item_type, item_city_name, item_house_number, item_road_name, item_zip_code, item_days_listed, item_energy_label, item_floor_square_meters, item_area_square_meters, item_number_of_rooms, item_floor_plan_path, item_main_image_path, item_monthly_expenses, item_price_per_meter, item_year_built, item_images_json) VALUES(:item_pk, :item_lat, :item_lon, :item_price, :item_type, :item_city_name, :item_house_number, :item_road_name, :item_zip_code, :item_days_listed, :item_energy_label, :item_floor_square_meters, :item_area_square_meters, :item_number_of_rooms, :item_floor_plan_path, :item_main_image_path, :item_monthly_expenses, :item_price_per_meter, :item_year_built, :item_images_json)";
+            $sql = "INSERT INTO items (item_pk, item_lat, item_lon, item_price, item_type, item_city_name, item_house_number, item_road_name, item_zip_code, item_days_listed, item_energy_label, item_floor_square_meters, item_area_square_meters, item_number_of_rooms, item_floor_plan_path, item_main_image_path, item_monthly_expenses, item_price_per_meter, item_year_built, item_images_json, item_description_body) VALUES(:item_pk, :item_lat, :item_lon, :item_price, :item_type, :item_city_name, :item_house_number, :item_road_name, :item_zip_code, :item_days_listed, :item_energy_label, :item_floor_square_meters, :item_area_square_meters, :item_number_of_rooms, :item_floor_plan_path, :item_main_image_path, :item_monthly_expenses, :item_price_per_meter, :item_year_built, :item_images_json, :item_description_body)";
             $stmt = $_db->prepare( $sql);
             $stmt->bindValue(":item_pk", $item_pk );
             $stmt->bindValue(":item_lat", $item_lat );
@@ -104,6 +106,7 @@ foreach($rows as $row){
             $stmt->bindValue(":item_price_per_meter", $item_price_per_meter);
             $stmt->bindValue(":item_year_built", $item_year_built);
             $stmt->bindValue(":item_images_json", $item_images_json);
+            $stmt->bindValue(":item_description_body", $item_description_body);
             $stmt->execute();
         }
     }
