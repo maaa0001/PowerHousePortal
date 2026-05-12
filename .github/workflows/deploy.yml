@@ -3,7 +3,7 @@ name: Deploy to InfinityFree
 on:
   push:
     branches:
-      - main # Or 'master', whichever you use as your default branch
+      - main
 
 jobs:
   web-deploy:
