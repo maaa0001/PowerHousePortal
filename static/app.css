@@ -930,3 +930,84 @@ aside {
   border-radius: 0.75rem;
   border: 1px solid var(--color-border);
 }
+
+/* ============================================================
+   14. HOUSE PAGE (page-house.php)
+   ============================================================ */
+
+body.house-page {
+  overflow: auto;
+  height: auto;
+  padding-top: var(--nav-height);
+}
+
+.house-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  align-items: start;
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: var(--space-6);
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.house-images {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.house-images img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+}
+
+.house-info h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.house-info p {
+  margin-bottom: var(--space-3);
+  line-height: 1.6;
+}
+
+.house-info a {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+
+.house-info a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+.house-info .primary-btn {
+  color: var(--color-text-inverse);
+  text-decoration: none;
+}
+
+.house-info .secondary-btn {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.house-info .primary-btn:hover,
+.house-info .secondary-btn:hover {
+  text-decoration: none;
+}
+
+.house-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}

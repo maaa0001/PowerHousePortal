@@ -45,39 +45,13 @@ if( ! is_array($listing_images) || ! count($listing_images) ){
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House Details</title>
-    <link rel="stylesheet" href="/static/app.css">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        .house-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: start;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2rem;
-        }
-        .house-images {
-            display: grid;
-            gap: 1rem;
-        }
-        .house-images img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-    </style>
-</head>
-<body>
+
+<?php
+$title = "House Details";
+$body_class = "house-page";
+$head_extras = '';
+require_once __DIR__.'/_header.php';
+?>
         <section class="house-layout">
             <div class="house-images">
                 <?php foreach($listing_images as $image): ?>
@@ -90,15 +64,16 @@ if( ! is_array($listing_images) || ! count($listing_images) ){
                 <h1><?= htmlspecialchars($item['item_type']) ?></h1>
                 <p>Price: kr. <?= number_format($item['item_price'], 0, ',', '.') ?></p>
                 <p>Rooms: <?= number_format($item['item_number_of_rooms']) ?></p>
+                <p>Floor area: <?= number_format($item['item_floor_square_meters']) ?> m²</p>
+                <p>Lot area: <?= number_format($item['item_area_square_meters']) ?> m²</p>
+                <p>Days listed: <?= number_format($item['item_days_listed']) ?></p>
                 <p>Address: <?= htmlspecialchars($item['item_road_name']) ?> <?= htmlspecialchars($item['item_house_number']) ?>, <?= htmlspecialchars($item['item_zip_code']) ?>, <?= htmlspecialchars($item['item_city_name']) ?></p>
                 <p>Energy label: <?= htmlspecialchars($item['item_energy_label']) ?></p>
-                <p>
-                    <a href="https://www.google.com/maps/place/<?= htmlspecialchars($item['item_road_name']) ?>+<?= htmlspecialchars($item['item_house_number']) ?>,+<?= htmlspecialchars($item['item_zip_code']) ?>+<?= htmlspecialchars($item['item_city_name']) ?>" target="_blank" rel="noopener noreferrer">Google maps</a>
-                </p>
-                <p>
-                    <a href="/">Back to map</a>
-                </p> 
+                <div class="house-actions">
+                    <a href="https://www.google.com/maps/place/<?= htmlspecialchars($item['item_road_name']) ?>+<?= htmlspecialchars($item['item_house_number']) ?>,+<?= htmlspecialchars($item['item_zip_code']) ?>+<?= htmlspecialchars($item['item_city_name']) ?>" target="_blank" rel="noopener noreferrer" class="primary-btn">Google maps</a>
+                    <a href="/" class="secondary-btn">Back to map</a>
+                </div>
             </div>
         </section>
-</body>
-</html>
+
+<?php require_once __DIR__.'/_footer.php'; ?>
