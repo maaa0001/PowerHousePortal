@@ -1,7 +1,7 @@
 <?php
 
 $params = [];
-$sql = "SELECT * FROM items WHERE 1=1";
+$sql = "SELECT item_pk, item_lat, item_lon, item_type FROM items WHERE 1=1";
 
 if (!empty($_GET['item_type'])) {
     $sql .= " AND item_type = :item_type";
@@ -54,4 +54,4 @@ foreach ($params as $key => $value) {
     $stmt->bindValue($key, $value);
 }
 $stmt->execute();
-$items = $stmt->fetchAll();
+$items = $stmt->fetchAll(PDO::FETCH_ASSOC);
