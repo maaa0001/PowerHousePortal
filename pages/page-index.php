@@ -313,6 +313,13 @@ require_once __DIR__.'/_header.php';
         });
     }
 
+    function scrollVisibleItemsToTop() {
+        document.getElementById('visible-items-list')?.scrollTo({
+            top: 0,
+            behavior: 'auto'
+        });
+    }
+
     async function selectVisibleProperty(itemPk, lat, lon) {
         selectedItemPk = itemPk;
         isPropertyDetailOpen = true;
@@ -320,6 +327,7 @@ require_once __DIR__.'/_header.php';
         zoomToProperty(lat, lon);
         await mix_fetch(`/apis/api-get-item.php?item_pk=${itemPk}`, 'GET', null, false);
         renderVisibleItemsBelowSelected(itemPk);
+        scrollVisibleItemsToTop();
     }
 
     function getVisibleItems() {

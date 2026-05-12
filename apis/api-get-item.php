@@ -80,7 +80,7 @@ $address_slug = urlencode(
 
             <div class="property-actions">
                 <a 
-                    class="primary-btn"
+                    class="primary-btn btn"
                     href="https://www.google.com/maps/place/<?= htmlspecialchars($item['item_road_name']) ?>+<?= htmlspecialchars($item['item_house_number']) ?>,+<?= htmlspecialchars($item['item_zip_code']) ?>+<?= htmlspecialchars($item['item_city_name']) ?>" 
                     target="_blank"
                 >
@@ -95,7 +95,7 @@ $address_slug = urlencode(
                 </button> -->
 
                 <a href="/house/<?= $address_slug ?>"
-                    class="secondary-btn"
+                    class="secondary-btn btn"
                 >
                     View property
                 </a>

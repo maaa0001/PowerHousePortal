@@ -948,11 +948,15 @@ footer {
 
 .primary-btn,
 .secondary-btn {
-  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
   padding: 0.9rem 1rem;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .primary-btn {
