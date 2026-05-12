@@ -463,6 +463,10 @@ require_once __DIR__.'/_header.php';
         renderMarkers(currentItems);
         updateVisibleItemsList();
 
+        if (currentItems.length > 0) {
+            map.fitBounds(markers.getBounds());
+        }
+
         if (data.url) {
             const params = new URLSearchParams();
 
