@@ -1,9 +1,10 @@
 <?php
 // Check if we are on InfinityFree or Localhost
-$is_localhost = ($_SERVER['HTTP_HOST'] === 'localhost' || 
-                 $_SERVER['REMOTE_ADDR'] === '127.0.0.1' || 
-                 (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false) ||
-                 strpos('DB_HOST_PLACEHOLDER', 'PLACEHOLDER') !== false); 
+$is_localhost = (php_sapi_name() === 'cli' ||
+                 ($_SERVER['HTTP_HOST'] ?? '') === 'localhost' ||
+                 ($_SERVER['REMOTE_ADDR'] ?? '') === '127.0.0.1' ||
+                 strpos($_SERVER['HTTP_HOST'] ?? '', '127.0.0.1') !== false ||
+                 strpos('DB_HOST_PLACEHOLDER', 'PLACEHOLDER') !== false);
 
 if ($is_localhost) {
     $dbUserName = 'root';
