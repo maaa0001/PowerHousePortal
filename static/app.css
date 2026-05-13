@@ -1,12 +1,3 @@
-/* ============================================================
-   POWERHOUSEPORTAL — Design System
-   app.css
-   ============================================================ */
-
-/* ============================================================
-   1. DESIGN TOKENS — Colours, Typography, Spacing
-   ============================================================ */
-
 :root {
   /* --- Brand Palette --- */
   --color-accent: #4c6fc0; /* warm orange — primary action */
@@ -59,6 +50,7 @@
 
   /* --- Layout --- */
   --nav-height: 3rem;
+  --footer-height: 30.5px;
   --aside-width: 340px;
   --border-radius: 6px;
   --border-radius-lg: 12px;
@@ -77,6 +69,7 @@
    2. RESET & BASE
    ============================================================ */
 
+/* RESET */
 *,
 *::before,
 *::after {
@@ -91,25 +84,18 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  font-weight: var(--weight-normal);
-  color: var(--color-text);
-  background-color: var(--color-bg);
   width: 100%;
   height: 100vh;
   overflow: hidden;
   padding-top: var(--nav-height);
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 a {
-  color: var(--color-accent);
   text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--color-accent-hover);
+  color: inherit;
 }
 
 img {
@@ -245,22 +231,22 @@ nav {
   left: 0;
   width: 100%;
   height: var(--nav-height);
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
+  z-index: 1000;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 0 var(--space-5);
-  z-index: 1000;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
 }
 
 nav .nav-brand {
   font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-bold);
+  font-size: 1.4rem;
+  font-weight: 700;
   color: var(--color-text);
-  letter-spacing: -0.02em;
 }
 
 nav .nav-brand span {
@@ -270,14 +256,11 @@ nav .nav-brand span {
 nav .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  gap: var(--space-4);
   list-style: none;
 }
 
 nav .nav-links a {
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-  color: var(--color-text-muted);
   padding: var(--space-1) var(--space-2);
   border-radius: var(--border-radius);
   transition:
@@ -287,8 +270,8 @@ nav .nav-links a {
 
 nav .nav-links a:hover,
 nav .nav-links a.active {
-  color: var(--color-text);
   background-color: var(--color-surface-alt);
+  color: var(--color-text);
 }
 
 .nav-actions {
@@ -302,31 +285,92 @@ nav .nav-links a.active {
    ============================================================ */
 
 main {
-  height: calc(100vh - var(--nav-height));
+  height: calc(100vh - var(--nav-height) - var(--footer-height));
   display: grid;
-  grid-template-columns: 1fr var(--aside-width);
+  grid-template-columns: 1.7fr 1fr;
   overflow: hidden;
 }
 
-/* --- Map --- */
+/* MAP */
 #map {
   width: 100%;
   height: 100%;
   background-color: var(--color-surface-alt);
 }
 
-/* --- Aside / Property Panel --- */
+/* ASIDE */
 aside {
-  height: 100%;
+  height: calc(100% - var(--footer-height));
+  min-height: 0;
   overflow-y: auto;
-  background-color: var(--color-surface);
+  overflow-x: hidden;
+
+  padding: var(--space-3);
+  background-color: var(--color-surface-alt);
   border-left: 1px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
 }
 
-aside:empty {
-  background-color: var(--color-surface-alt);
+#visible-items-list .visible-item {
+  width: 100%;
+  margin-bottom: var(--space-3);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+#visible-items-list .visible-item:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+#visible-items-list .selected-property {
+  cursor: default;
+  border-color: var(--color-accent);
+  box-shadow:
+    0 0 0 2px rgba(76, 111, 192, 0.18),
+    var(--shadow-md);
+}
+
+#visible-items-list .visible-item .property-image {
+  width: 38%;
+  min-width: 110px;
+}
+
+#visible-items-list .visible-item .property-content {
+  flex: 1;
+  min-width: 0;
+}
+
+#visible-items-list .visible-item .property-price {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+
+#visible-items-list .visible-item .property-address {
+  min-height: 0;
+  font-size: var(--text-base);
+  margin-bottom: var(--space-3);
+}
+
+#visible-items-list .visible-item .property-info {
+  gap: var(--space-3);
+  padding: var(--space-3) 0 0;
+  margin-bottom: var(--space-3);
+  border-bottom: 0;
+}
+
+#visible-items-list .visible-item .primary-btn,
+#visible-items-list .visible-item .secondary-btn {
+  flex: 1;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.load-more-visible {
+  width: 100%;
+  margin-bottom: var(--space-3);
 }
 
 /* ============================================================
@@ -347,7 +391,14 @@ aside:empty {
 
 .marker:hover {
   transform: scale(1.4);
-  box-shadow: var(--shadow-md);
+}
+
+.marker.selected {
+  transform: scale(2);
+  border-color: var(--color-text-inverse);
+  box-shadow:
+    0 0 0 4px rgba(76, 111, 192, 0.24),
+    var(--shadow-lg);
 }
 
 .marker.villa {
@@ -368,7 +419,8 @@ aside:empty {
    ============================================================ */
 
 .property-card {
-  padding: var(--space-5);
+  display: flex;
+  padding: var(--space-3);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -785,7 +837,7 @@ nav {
 main {
   flex-grow: 1;
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1.6fr 1fr;
   #map {
     width: 100%;
     height: 100%;
@@ -820,13 +872,6 @@ footer {
   }
 }
 
-aside {
-  height: 100%;
-  overflow-y: auto;
-  padding: var(--space-4);
-  background-color: var(--color-surface-alt);
-}
-
 .property-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -836,8 +881,8 @@ aside {
 }
 
 .property-image {
-  width: 100%;
-  aspect-ratio: 4 / 3;
+  width: 50%;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
 }
 
@@ -848,7 +893,7 @@ aside {
 }
 
 .property-content {
-  padding: 1.5rem;
+  padding: var(--space-3);
 }
 
 .property-type {
@@ -858,6 +903,7 @@ aside {
 }
 
 .property-price {
+  font-family: var(--font-display);
   font-size: 2rem;
   line-height: 1;
   color: var(--color-text);
@@ -865,10 +911,11 @@ aside {
 }
 
 .property-address {
+  min-height: 48px;
+  font-family: var(--font-display);
   font-size: 1.2rem;
   line-height: 1.25;
   color: var(--color-text);
-  margin-bottom: 1.5rem;
 }
 
 .property-info {
@@ -893,20 +940,23 @@ aside {
   color: var(--color-text);
 }
 
+/* BUTTONS */
 .property-actions {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  gap: var(--space-3);
 }
 
 .primary-btn,
 .secondary-btn {
-  border: none;
-  border-radius: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
   padding: 0.9rem 1rem;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .primary-btn {
@@ -920,6 +970,7 @@ aside {
   border: 1px solid var(--color-accent);
 }
 
+/* FLOOR PLAN */
 .floor-plan {
   border-top: 1px solid var(--color-border);
   padding-top: 1rem;

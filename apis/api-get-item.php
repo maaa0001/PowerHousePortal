@@ -32,7 +32,7 @@ $address_slug = urlencode(
 ?>
 
 <browser mix-update="aside">
-    <section class="property-card">
+    <article class="property-card visible-item selected-property">
 
         <div class="property-image">
             <img 
@@ -49,20 +49,22 @@ $address_slug = urlencode(
 
             <p class="property-type">
                 <?= htmlspecialchars($item['item_type']) ?>
-                |
-                Energy label <?= htmlspecialchars($item['item_energy_label']) ?>
+                <?php if (!empty($item['item_energy_label']) && $item['item_energy_label'] !== '0'): ?>
+                    |
+                    Energy label <?= htmlspecialchars($item['item_energy_label']) ?>
+                <?php endif; ?>
             </p>
 
-            <h2 class="property-price">
+            <h3 class="property-price">
                 <?= number_format($item['item_price'], 0, ',', '.') ?> kr.
-            </h2>
+            </h3>
 
-            <h3 class="property-address">
+            <h4 class="property-address">
                 <?= htmlspecialchars($item['item_road_name']) ?> 
                 <?= htmlspecialchars($item['item_house_number']) ?>,
                 <?= htmlspecialchars($item['item_zip_code']) ?>
                 <?= htmlspecialchars($item['item_city_name']) ?>
-            </h3>
+            </h4>
 
             <div class="property-info">
                 <div>
@@ -71,18 +73,18 @@ $address_slug = urlencode(
                 </div>
 
                 <div>
-                    <span>Type</span>
-                    <strong><?= htmlspecialchars($item['item_type']) ?></strong>
+                    <span>Area</span>
+                    <strong><?= htmlspecialchars($item['item_floor_square_meters']) ?> m²</strong>
                 </div>
             </div>
 
             <div class="property-actions">
                 <a 
-                    class="primary-btn"
+                    class="primary-btn btn"
                     href="https://www.google.com/maps/place/<?= htmlspecialchars($item['item_road_name']) ?>+<?= htmlspecialchars($item['item_house_number']) ?>,+<?= htmlspecialchars($item['item_zip_code']) ?>+<?= htmlspecialchars($item['item_city_name']) ?>" 
                     target="_blank"
                 >
-                    Google maps
+                   Maps
                 </a>
 
                 <!-- <button 
@@ -93,13 +95,13 @@ $address_slug = urlencode(
                 </button> -->
 
                 <a href="/house/<?= $address_slug ?>"
-                    class="secondary-btn"
+                    class="secondary-btn btn"
                 >
-                    See full property
+                    View property
                 </a>
             </div>
 
-           <div class="floor-plan">
+           <!-- <div class="floor-plan">
                 <img 
                     src="<?= !empty($item['item_floor_plan_path']) 
                         ? htmlspecialchars($item['item_floor_plan_path']) 
@@ -108,8 +110,8 @@ $address_slug = urlencode(
                     alt="Floor plan of a <?= htmlspecialchars($item['item_type'] ?? 'item') ?>"
                     onerror="this.onerror=null; this.src='floor_plan_dummy.png';"
                 >
-            </div>
+            </div> -->
 
         </div>
-    </section>
+    </article>
 </browser>

@@ -1,7 +1,24 @@
 <?php
 
 $params = [];
-$sql = "SELECT item_pk, item_lat, item_lon, item_type FROM items WHERE 1=1";
+$sql = "
+    SELECT
+        item_pk,
+        item_lat,
+        item_lon,
+        item_price,
+        item_type,
+        item_zip_code,
+        item_city_name,
+        item_road_name,
+        item_house_number,
+        item_number_of_rooms,
+        item_main_image_path,
+        item_floor_square_meters,
+        item_energy_label
+    FROM items
+    WHERE 1=1
+";
 
 if (!empty($_GET['item_type'])) {
     $sql .= " AND item_type = :item_type";

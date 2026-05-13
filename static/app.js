@@ -39,16 +39,18 @@ function clear_markers(data) {
 const toggle = document.getElementById('themeToggle');
 const root = document.documentElement;
 
-const saved = localStorage.getItem('theme');
-if (saved) {
-  root.setAttribute('data-theme', saved);
-  toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
-}
+if (toggle) {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    root.setAttribute('data-theme', saved);
+    toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+  }
 
-toggle.addEventListener('click', () => {
-  const current = root.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', next);
-  localStorage.setItem('theme', next);
-  toggle.textContent = next === 'dark' ? '☀️' : '🌙';
-});
+  toggle.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+  });
+}
