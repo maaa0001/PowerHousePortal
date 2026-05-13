@@ -292,6 +292,11 @@ require_once __DIR__.'/_header.php';
         })[char]);
     }
 
+    function capitalizeFirstLetter(value) {
+        const text = String(value ?? '');
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
     function getGoogleMapsUrl(item) {
         const address = `${item.item_road_name} ${item.item_house_number}, ${item.item_zip_code} ${item.item_city_name}`;
         return `https://www.google.com/maps/place/${encodeURIComponent(address)}`;
@@ -356,7 +361,7 @@ require_once __DIR__.'/_header.php';
 
                     <div class="property-content">
                         <p class="property-type">
-                            ${escapeHtml(item.item_type)}
+                            ${escapeHtml(capitalizeFirstLetter(item.item_type))}
                             ${item.item_energy_label && item.item_energy_label !== '0' ? `| Energy label ${escapeHtml(item.item_energy_label)}` : ''}
                         </p>
 

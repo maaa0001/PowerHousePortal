@@ -26,7 +26,7 @@ foreach($rows as $row){
 
     if ($cases){
         foreach($cases as $item){
-            $item_pk = bin2hex(random_bytes(25));
+            $item_pk = $item["caseID"] ?? bin2hex(random_bytes(25));
             $coordinates = $item["coordinates"];
             $item_lat = $coordinates["lat"];
             $item_lon = $coordinates["lon"];
@@ -84,7 +84,7 @@ foreach($rows as $row){
             }
 
 
-            $sql = "INSERT INTO items (item_pk, item_lat, item_lon, item_price, item_type, item_city_name, item_house_number, item_road_name, item_zip_code, item_days_listed, item_energy_label, item_floor_square_meters, item_area_square_meters, item_number_of_rooms, item_floor_plan_path, item_main_image_path, item_monthly_expenses, item_price_per_meter, item_year_built, item_images_json, item_description_body) VALUES(:item_pk, :item_lat, :item_lon, :item_price, :item_type, :item_city_name, :item_house_number, :item_road_name, :item_zip_code, :item_days_listed, :item_energy_label, :item_floor_square_meters, :item_area_square_meters, :item_number_of_rooms, :item_floor_plan_path, :item_main_image_path, :item_monthly_expenses, :item_price_per_meter, :item_year_built, :item_images_json, :item_description_body)";
+            $sql = "REPLACE INTO items (item_pk, item_lat, item_lon, item_price, item_type, item_city_name, item_house_number, item_road_name, item_zip_code, item_days_listed, item_energy_label, item_floor_square_meters, item_area_square_meters, item_number_of_rooms, item_floor_plan_path, item_main_image_path, item_monthly_expenses, item_price_per_meter, item_year_built, item_images_json, item_description_body) VALUES(:item_pk, :item_lat, :item_lon, :item_price, :item_type, :item_city_name, :item_house_number, :item_road_name, :item_zip_code, :item_days_listed, :item_energy_label, :item_floor_square_meters, :item_area_square_meters, :item_number_of_rooms, :item_floor_plan_path, :item_main_image_path, :item_monthly_expenses, :item_price_per_meter, :item_year_built, :item_images_json, :item_description_body)";
             $stmt = $_db->prepare( $sql);
             $stmt->bindValue(":item_pk", $item_pk );
             $stmt->bindValue(":item_lat", $item_lat );
