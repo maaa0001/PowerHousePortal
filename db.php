@@ -1,11 +1,26 @@
 <?php
-// PDO
-try{
-  $dbUserName = 'root';
-  $dbPassword = 'password'; // root | admin
-  $dbConnection = 'mysql:host=mariadb; dbname=power_house_portal; charset=utf8mb4';
-  // utf8 every character in the world
-  // mb4 every character and also emojies
+// Check if we are on InfinityFree or Localhost
+$is_localhost = (php_sapi_name() === 'cli' ||
+                 ($_SERVER['HTTP_HOST'] ?? '') === 'localhost' ||
+                 ($_SERVER['REMOTE_ADDR'] ?? '') === '127.0.0.1' ||
+                 strpos($_SERVER['HTTP_HOST'] ?? '', '127.0.0.1') !== false ||
+                 strpos('DB_HOST_PLACEHOLDER', 'PLACEHOLDER') !== false);
+
+if ($is_localhost) {
+    $dbUserName = 'root';
+    $dbPassword = 'password';
+    $dbConnection = 'mysql:host=mariadb; dbname=power_house_portal; charset=utf8mb4';
+} else {
+    // Show errors on InfinityFree for debugging purposes
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    $dbUserName = 'DB_USERNAME_PLACEHOLDER';
+    $dbPassword = 'DB_PASSWORD_PLACEHOLDER';
+    $dbConnection = 'mysql:host=DB_HOST_PLACEHOLDER; dbname=DB_NAME_PLACEHOLDER; charset=utf8mb4';
+}
+
+try {
   $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // try-catch
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // ['nickname']
