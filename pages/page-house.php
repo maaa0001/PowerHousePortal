@@ -189,6 +189,26 @@ require_once __DIR__.'/_header.php';
     if (description && descriptionText && descriptionToggle) {
         let expanded = false;
 
+        const updateDescriptionToggleVisibility = () => {
+            description.classList.add('expanded');
+            const expandedHeight = descriptionText.scrollHeight;
+            description.classList.remove('expanded');
+            const collapsedHeight = descriptionText.clientHeight;
+            const hasOverflow = expandedHeight > collapsedHeight + 1;
+
+            descriptionToggle.style.display = hasOverflow ? 'inline-flex' : 'none';
+
+            if (!hasOverflow) {
+                expanded = false;
+                description.classList.remove('expanded');
+                descriptionToggle.textContent = 'See more';
+                descriptionToggle.setAttribute('aria-expanded', 'false');
+            }
+        };
+
+        requestAnimationFrame(updateDescriptionToggleVisibility);
+        window.addEventListener('resize', updateDescriptionToggleVisibility);
+
         descriptionToggle.addEventListener('click', () => {
             expanded = !expanded;
             description.classList.toggle('expanded', expanded);
