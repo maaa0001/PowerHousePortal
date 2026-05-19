@@ -90,31 +90,12 @@ $address_slug =
                    Maps
                 </a>
 
-                <!-- <button 
-                    class="secondary-btn"
-                    mix-put="api-mark-as-sold?item_pk=<?= $item_pk ?>"
-                >
-                    Mark as sold
-                </button> -->
-
                 <a href="/house/<?= $address_slug ?>"
                     class="secondary-btn btn"
                 >
                     View property
                 </a>
             </div>
-
-           <!-- <div class="floor-plan">
-                <img 
-                    src="<?= !empty($item['item_floor_plan_path']) 
-                        ? htmlspecialchars($item['item_floor_plan_path']) 
-                        : 'floor_plan_dummy.png' 
-                    ?>" 
-                    alt="Floor plan of a <?= htmlspecialchars($item['item_type'] ?? 'item') ?>"
-                    onerror="this.onerror=null; this.src='floor_plan_dummy.png';"
-                >
-            </div> -->
-
         </div>
     </article>
 </browser>
