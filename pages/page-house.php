@@ -56,7 +56,7 @@ if( ! is_array($listing_images) || ! count($listing_images) ){
 
 $floor_plan_image = $item['item_floor_plan_path'] ?? '';
 if( ! count($listing_images) ){
-    $listing_images[] = '/sofa_dummy.png';
+    $listing_images[] = '/static/images/sofa_dummy.png';
 }
 
 if( ! empty($floor_plan_image) && $floor_plan_image !== "0" ){
@@ -65,7 +65,7 @@ if( ! empty($floor_plan_image) && $floor_plan_image !== "0" ){
     }));
     $listing_images[] = $floor_plan_image;
 } else {
-    $floor_plan_image = '/floor_plan_dummy.png';
+    $floor_plan_image = '/static/images/floor_plan_dummy.png';
     $listing_images[] = $floor_plan_image;
 }
 ?>
@@ -85,7 +85,7 @@ require_once __DIR__.'/_header.php';
                     <button type="button" class="house-carousel-btn prev" id="carousel-prev" aria-label="Previous image">&#8249;</button>
                     <div class="house-carousel-track" id="carousel-track">
                         <?php foreach($listing_images as $image): ?>
-                            <?php $image_fallback = ($image === $floor_plan_image) ? '/floor_plan_dummy.png' : '/sofa_dummy.png'; ?>
+                            <?php $image_fallback = ($image === $floor_plan_image) ? '/static/images/floor_plan_dummy.png' : '/static/images/sofa_dummy.png'; ?>
                             <img class="house-carousel-image" src="<?= htmlspecialchars($image) ?>" alt="Image of a <?= htmlspecialchars($item['item_type']) ?>" onerror="this.onerror=null; this.src='<?= $image_fallback ?>';">
                         <?php endforeach; ?>
                     </div>
@@ -93,7 +93,7 @@ require_once __DIR__.'/_header.php';
                 </div>
                 <div class="house-carousel-thumbs" id="carousel-thumbs">
                     <?php foreach($listing_images as $index => $image): ?>
-                        <?php $image_fallback = ($image === $floor_plan_image) ? '/floor_plan_dummy.png' : '/sofa_dummy.png'; ?>
+                        <?php $image_fallback = ($image === $floor_plan_image) ? '/static/images/floor_plan_dummy.png' : '/static/images/sofa_dummy.png'; ?>
                         <button type="button" class="house-carousel-thumb<?= $index === 0 ? ' active' : '' ?>" data-index="<?= $index ?>" aria-label="Show image <?= $index + 1 ?>">
                             <img src="<?= htmlspecialchars($image) ?>" alt="Thumbnail of <?= htmlspecialchars($item['item_type']) ?>" onerror="this.onerror=null; this.src='<?= $image_fallback ?>';">
                         </button>

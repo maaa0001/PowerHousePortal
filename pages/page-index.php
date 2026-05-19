@@ -354,9 +354,9 @@ require_once __DIR__.'/_header.php';
 
                     <div class="property-image">
                         <img
-                            src="${escapeHtml(item.item_main_image_path && item.item_main_image_path !== '0' ? item.item_main_image_path : 'sofa_dummy.png')}"
+                            src="${escapeHtml(item.item_main_image_path && item.item_main_image_path !== '0' ? item.item_main_image_path : '/static/images/sofa_dummy.png')}"
                             alt="Image of a ${escapeHtml(item.item_type || 'property')}"
-                            onerror="this.src='sofa_dummy.png'">
+                            onerror="this.src='/static/images/sofa_dummy.png'">
                     </div>
 
                     <div class="property-content">

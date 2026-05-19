@@ -41,10 +41,10 @@ $address_slug =
             <img 
                 src="<?= !empty($item['item_main_image_path']) 
                     ? htmlspecialchars($item['item_main_image_path']) 
-                    : 'sofa_dummy.png' 
+                    : '/static/images/sofa_dummy.png' 
                 ?>" 
                 alt="Image of a <?= htmlspecialchars($item['item_type'] ?? 'item') ?>"
-                onerror="this.src='sofa_dummy.png'"
+                onerror="this.src='/static/images/sofa_dummy.png'"
             >
         </div>
 
