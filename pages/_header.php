@@ -14,7 +14,7 @@
   <a href="/" class="nav-brand">Power<span>House</span>Portal</a>
   <div class="nav-actions">
     <ul class="nav-links">
-      <li><a href="/" class="active primary-btn">Map</a></li>
+      <li><a href="/" class="active primary-btn">Refresh map</a></li>
     </ul>
   </div>
 </nav>
