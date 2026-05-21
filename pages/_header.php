@@ -12,9 +12,4 @@
 <body<?php if (!empty($body_class)) echo ' class="'.htmlspecialchars($body_class).'"'; ?>>
 <nav>
   <a href="/" class="nav-brand">Power<span>House</span>Portal</a>
-  <div class="nav-actions">
-    <ul class="nav-links">
-      <li><a href="/" class="active primary-btn">Refresh map</a></li>
-    </ul>
-  </div>
 </nav>

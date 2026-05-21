@@ -195,32 +195,10 @@ nav .nav-brand span {
   color: var(--color-accent);
 }
 
-nav .nav-links {
+/* nav .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  list-style: none;
-}
-
-nav .nav-links a {
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--border-radius);
-  transition:
-    color var(--transition-fast),
-    background-color var(--transition-fast);
-}
-
-nav .nav-links a:hover,
-nav .nav-links a.active {
-  background-color: var(--color-surface-alt);
-  color: var(--color-text);
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-}
+} */
 
 /* ============================================================
    7. LAYOUT — Main / Map / Aside
