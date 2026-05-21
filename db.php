@@ -23,9 +23,7 @@ if ($is_localhost) {
 try {
   $options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // try-catch
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // ['nickname']
-    //PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ // ->nickname
-    // PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_NUM // [[2],[],[]]
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC // associative arrays
   ];
   $_db = new PDO(  $dbConnection,
                   $dbUserName,
