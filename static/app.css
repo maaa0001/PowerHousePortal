@@ -772,6 +772,182 @@ footer {
   border: 1px solid var(--color-accent);
 }
 
+@media (max-width: 900px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  nav {
+    padding: 0 var(--space-3);
+  }
+
+  nav .nav-brand {
+    font-size: 1.15rem;
+  }
+
+  nav .nav-links {
+    gap: var(--space-2);
+  }
+
+  nav .nav-links a {
+    font-size: var(--text-xs);
+  }
+
+  header {
+    padding: var(--space-3);
+  }
+
+  .filter-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+    align-items: end;
+  }
+
+  .filter-group,
+  .city-search-group,
+  .filter-actions {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .filter-group input[type="text"],
+  .filter-group select,
+  .dual-range-container,
+  .filter-group input[type="range"] {
+    width: 100%;
+  }
+
+  .city-input-wrapper {
+    min-height: 2.45rem;
+  }
+
+  .city-pills {
+    justify-content: flex-start;
+  }
+
+  .clear-btn {
+    display: inline-flex;
+    min-height: 2.45rem;
+    align-items: center;
+  }
+
+  main {
+    height: auto;
+    min-height: calc(100vh - var(--nav-height) - var(--footer-height));
+    grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  #map {
+    height: 52vh;
+    min-height: 360px;
+  }
+
+  aside {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+    padding-bottom: calc(var(--footer-height) + var(--space-4));
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding-top: var(--nav-height);
+  }
+
+  nav {
+    gap: var(--space-2);
+    padding: 0 var(--space-2);
+  }
+
+  nav .nav-brand {
+    font-size: 1rem;
+  }
+
+  .nav-actions {
+    min-width: 0;
+  }
+
+  nav .nav-links a {
+    padding: var(--space-1);
+    white-space: nowrap;
+  }
+
+  .filter-form {
+    grid-template-columns: 1fr;
+  }
+
+  .city-input-wrapper {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-1) var(--space-2);
+  }
+
+  .city-input-wrapper input[type="text"] {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #map {
+    height: 44vh;
+    min-height: 300px;
+  }
+
+  aside {
+    padding: var(--space-2);
+    padding-bottom: calc(var(--footer-height) + var(--space-4));
+  }
+
+  .property-card,
+  #visible-items-list .visible-item {
+    flex-direction: column;
+  }
+
+  .property-image,
+  #visible-items-list .visible-item .property-image {
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .property-content {
+    width: 100%;
+  }
+
+  .property-price,
+  #visible-items-list .visible-item .property-price {
+    font-size: 1.45rem;
+  }
+
+  .property-address,
+  #visible-items-list .visible-item .property-address {
+    min-height: 0;
+    font-size: 1rem;
+  }
+
+  .property-actions {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  #visible-items-list .visible-item .primary-btn,
+  #visible-items-list .visible-item .secondary-btn,
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    min-height: 2.75rem;
+  }
+
+  footer {
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
 /* ============================================================
    12. HOUSE PAGE (page-house.php)
    ============================================================ */
