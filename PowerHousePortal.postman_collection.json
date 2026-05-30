@@ -1,0 +1,231 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "PowerHousePortal API",
+		"description": "API endpoints for the PowerHousePortal real estate application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Suggestions",
+			"item": [
+				{
+					"name": "City Suggestions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/apis/api-city-suggestions.php?city=To",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"apis",
+								"api-city-suggestions.php"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "To",
+									"description": "Minimum 2 characters"
+								}
+							]
+						},
+						"description": "Returns a JSON list of cities matching the input string."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search & Filter",
+			"item": [
+				{
+					"name": "Filter Items (JSON)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/apis/api-search.php?item_type=villa&min_price=500000&max_price=2000000&min_area=100",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"apis",
+								"api-search.php"
+							],
+							"query": [
+								{
+									"key": "item_type",
+									"value": "villa"
+								},
+								{
+									"key": "min_price",
+									"value": "500000"
+								},
+								{
+									"key": "max_price",
+									"value": "2000000"
+								},
+								{
+									"key": "min_area",
+									"value": "100"
+								},
+								{
+									"key": "max_area",
+									"value": "300"
+								},
+								{
+									"key": "min_rooms",
+									"value": "3"
+								},
+								{
+									"key": "cities",
+									"value": "Tønder"
+								}
+							]
+						},
+						"description": "Searches for properties based on filters. Returns data wrapped in a <browser> tag for the frontend."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Property Details",
+			"item": [
+				{
+					"name": "Get Item HTML",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/apis/api-get-item.php?item_pk=0196b2d2-350b-4dc0-a6e1-a299c409e301",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"apis",
+								"api-get-item.php"
+							],
+							"query": [
+								{
+									"key": "item_pk",
+									"value": "0196b2d2-350b-4dc0-a6e1-a299c409e301",
+									"description": "The unique primary key of the item"
+								}
+							]
+						},
+						"description": "Returns the HTML card for a specific property."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Edge Cases",
+			"item": [
+				{
+					"name": "City Suggestion - 1 Character",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/apis/api-city-suggestions.php?city=T",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"apis",
+								"api-city-suggestions.php"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "T",
+									"description": "API requires at least 2 chars"
+								}
+							]
+						},
+						"description": "Tests that the API returns an empty array when only 1 character is provided."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Item - Invalid ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/apis/api-get-item.php?item_pk=invalid_id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"apis",
+								"api-get-item.php"
+							],
+							"query": [
+								{
+									"key": "item_pk",
+									"value": "invalid_id"
+								}
+							]
+						},
+						"description": "Tests that the API handles non-existent IDs gracefully."
+					},
+					"response": []
+				},
+				{
+					"name": "Filter - No Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/apis/api-search.php?min_price=999999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"apis",
+								"api-search.php"
+							],
+							"query": [
+								{
+									"key": "min_price",
+									"value": "999999999"
+								}
+							]
+						},
+						"description": "Tests a filter that is guaranteed to return zero results."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"Response time is less than 500ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(500);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost",
+			"type": "string"
+		}
+	]
+}
