@@ -59,3 +59,38 @@ foreach ($listings as $listing) {
 // Cozy Studio, Nørrebro — $950/month (Rent)
 // Family Home, Frederiksberg — $425000 (For Sale)
 // Modern 2-bed, Vesterbro — $1400/month (Rent)
+
+class User {
+    private $name;
+    private $email;
+    private $password;
+
+    public function __construct($name, $email, $password) {
+        $this->name = $name;
+        $this->email = $email;
+        $this->password = $password;
+    }
+
+    public function getName(){
+        return $this->name;
+    }
+
+    public function getEmail(){
+        return $this->email;
+    }
+
+    public function checkPassword($password){
+        return $this->password === $password;
+    }
+}
+
+$user = new User("Emil", "emil@example.com", "password123");
+
+echo $user->getName();
+echo $user->getEmail();
+
+if ($user->checkPassword("password123")) {
+    echo "Password is correct";
+} else {
+    echo "Wrong password";
+}
