@@ -59,3 +59,21 @@ foreach ($listings as $listing) {
 // Cozy Studio, Nørrebro — $950/month (Rent)
 // Family Home, Frederiksberg — $425000 (For Sale)
 // Modern 2-bed, Vesterbro — $1400/month (Rent)
+
+class User {
+
+    private string $name;
+
+    public function __construct(string $name){
+        $this->name = $name;
+    }
+
+    public function getName(): string {
+        return $this->name;
+    }
+}
+
+$user = new User("Rasmus");
+// Dette virker IKKE:
+// echo $user->name;
+echo $user->getName();

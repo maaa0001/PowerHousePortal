@@ -59,7 +59,7 @@ $address_slug =
             </p>
 
             <h3 class="property-price">
-                <?= number_format($item['item_price'], 0, ',', '.') ?> kr.
+                <?= is_numeric($item['item_price'] ?? null) ? number_format((float)$item['item_price'], 0, ',', '.') . ' kr.' : '' ?>
             </h3>
 
             <h4 class="property-address">
@@ -72,7 +72,7 @@ $address_slug =
             <div class="property-info">
                 <div>
                     <span>Rooms</span>
-                    <strong><?= number_format($item['item_number_of_rooms']) ?></strong>
+                    <strong><?= is_numeric($item['item_number_of_rooms'] ?? null) ? number_format((float)$item['item_number_of_rooms']) : '' ?></strong>
                 </div>
 
                 <div>
